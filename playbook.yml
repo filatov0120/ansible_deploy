@@ -1,0 +1,8 @@
+---
+- name: Deploy infrastructure
+  hosts: all
+
+  roles:
+    - docker_server
+    - mongodb_server
+    - redis_server

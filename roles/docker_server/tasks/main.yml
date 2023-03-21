@@ -1,0 +1,32 @@
+---
+# tasks file for docker
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  loop:
+    - nginx
+    - docker
+    - docker-compose
+
+- name: Docker status
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Create user and add in docker's group
+  user:
+    name: alex
+    shell: /bin/bash
+    groups: docker
+    append: yes
+
+- name: Show nginx version
+  command: nginx -v
+  register: nginx_version
+
+- name: Print version
+  debug:
+    msg: "NGINX VERSION: '{{ nginx_version.stderr }}'"
