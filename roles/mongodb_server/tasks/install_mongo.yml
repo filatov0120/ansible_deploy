@@ -1,0 +1,46 @@
+---
+- name: Updating cache
+  yum:
+    update_cache: yes
+
+- name: Installing latest patches
+  command: yum update -y
+  args:
+     warn: false
+
+- name: Enable EPEL Repository
+  yum:
+    name: epel-release
+    state: latest
+
+- name: Installing PIP
+  yum:
+    name: python-pip
+    state: present
+
+- name: Installing MongoDB prerequisites
+  pip:
+    name: pymongo
+    state: present
+  with_items:
+    - pymongo
+    - pyOpenSSL
+
+- name: Adding MongoDB repository
+  template:
+    src: mongo_repo.j2
+    dest: /etc/yum.repos.d/mongodb-org-4.4.repo
+    mode: 0644
+
+- name: Installing MongoDB package
+  yum:
+    name: "{{ mongo_package  }}"
+    state: present
+
+- name: Daemon Reload
+  shell: systemctl daemon-reload
+
+- name: Starting MongoDB service
+  service:
+    name: mongod
+    state: started

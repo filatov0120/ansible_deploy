@@ -1,2 +1,12 @@
 ---
-# defaults file for mongodb
+# defaults file for mongodb variables.
+# Service file variables
+mongo_service_user: mongod
+mongo_service_group: mongod
+# Config variables
+mongo_log_path: /data/log/mongodb/mongod.log
+mongo_dbpath: /data/db
+mongo_pid_path_file: /var/run/mongodb/mongod.pid
+timezone_info: /usr/share/zoneinfo
+mongo_port: 27017
+mongo_bind_address: 0.0.0.0

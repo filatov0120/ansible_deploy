@@ -16,17 +16,31 @@
     state: started
     enabled: yes
 
-- name: Create user and add in docker's group
-  user:
-    name: alex
-    shell: /bin/bash
-    groups: docker
-    append: yes
+#- name: Create user and add in docker's group
+#  user:
+#    name: alex
+#    shell: /bin/bash
+#    groups: docker
+#    append: yes
+
+- name: Nginx status
+  service:
+    name: nginx
+    state: started
+    enabled: yes
 
 - name: Show nginx version
   command: nginx -v
   register: nginx_version
 
-- name: Print version
+- name: Show docker version
+  command: docker -v
+  register: docker_version
+
+- name: Print version Nginx
   debug:
     msg: "NGINX VERSION: '{{ nginx_version.stderr }}'"
+
+- name: Print version Docker
+  debug:
+    msg: "DOCKER VERSION: '{{ docker_version.stdout }}'"

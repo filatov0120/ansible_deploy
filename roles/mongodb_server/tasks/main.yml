@@ -1,2 +1,7 @@
 ---
 # tasks file for mongodb
+- name: Installing MongoDB
+  include_tasks: install_mongo.yml
+
+- name: Configuring MongoDB
+  include_tasks: configure.yml

@@ -1,8 +1,16 @@
 ---
-- name: Deploy infrastructure
-  hosts: all
-
+- name: Config docker_server
+  hosts: docker
   roles:
     - docker_server
-    - mongodb_server
+
+#- name: Config mongodb_server
+#  hosts: mongodb
+#  roles:
+#    - mongodb_server
+#  any_errors_fatal: true
+
+- name: Config redis_server
+  hosts: redis
+  roles:
     - redis_server

@@ -1,2 +1,5 @@
 ---
 # vars file for mongodb
+# Installation vars
+mongo_package: "mongodb-org-4.4.4-1.amzn2.x86_64"
+mongo_repo_version: 4.4
