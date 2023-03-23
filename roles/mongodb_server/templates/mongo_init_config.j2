@@ -1,12 +1,12 @@
 ---
-# mongod.conf
-systemLog:
-  destination: file
-  logAppend: true
-  path: {{ code }}
-# Where and how to store data.
-storage:
-  dbPath: {{ db_path }}
+# mongod.conf 
+systemLog: 
+  destination: file 
+  logAppend: true 
+  path: {{ mongo_log_path }} 
+# Where and how to store data. 
+storage: 
+  dbPath: {{ mongo_dbpath }} 
   journal:
     enabled: true
   engine: wiredTiger
@@ -14,17 +14,17 @@ storage:
 #  wiredTiger:
 # how the process runs
 processManagement:
-  fork: true
-  pidFilePath: {{ pid_path }}
-  timeZoneInfo: {{ time_zone }}
+  fork: true 
+  pidFilePath: {{ mongo_pid_path_file }}  
+  timeZoneInfo: {{ timezone_info }}
 # network interfaces
 net:
-  port: {{ port }}
-  bindIp: {{ bind_address }}
+  port: {{ mongo_port }}
+  bindIp: {{ mongo_bind_address }} 
 #operationProfiling:
 replication:
   replSetName: "rs0"
-#sharding:
+#sharding: 
 ## Enterprise-Only Options
 #auditLog:
 #snmp:

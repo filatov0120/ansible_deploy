@@ -1,40 +1,38 @@
 ---
-- name: Updating cache
-  yum:
-    update_cache: yes
+- name: Add an Apt signing key, uses whichever key is at the URL
+  get_url:
+    url: https://www.mongodb.org/static/pgp/server-6.0.asc
+    dest: /etc/apt/trusted.gpg.d/mongodb.asc
+    mode: 0644
+    force: true
 
-- name: Installing latest patches
-  command: yum update -y
-  args:
-     warn: false
+# - name: Install gnupg and its required libraries
+#   apt:
+#     name: gnupg
 
-- name: Enable EPEL Repository
-  yum:
-    name: epel-release
-    state: latest
+# - name: Import MongoDB public GPG Key
+#   apt_key:
+#     keyserver: keyserver.ubuntu.com
+#     id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 
-- name: Installing PIP
-  yum:
-    name: python-pip
-    state: present
-
-- name: Installing MongoDB prerequisites
-  pip:
-    name: pymongo
-    state: present
-  with_items:
-    - pymongo
-    - pyOpenSSL
+# - name: Add mongo repository
+#   apt_repository:
+#     repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse"
 
 - name: Adding MongoDB repository
   template:
     src: mongo_repo.j2
-    dest: /etc/yum.repos.d/mongodb-org-4.4.repo
-    mode: 0644
+    dest: /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+- name: Updating OS
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
 
 - name: Installing MongoDB package
-  yum:
-    name: "{{ mongo_package  }}"
+  apt:
+    name: "{{ mongo_package }}"
     state: present
 
 - name: Daemon Reload
@@ -44,3 +42,8 @@
   service:
     name: mongod
     state: started
+
+- name: Enable MongoDB service
+  service:
+    name: mongod
+    enabled: yes

@@ -1,8 +1,8 @@
 ---
 # defaults file for mongodb variables.
 # Service file variables
-mongo_service_user: mongod
-mongo_service_group: mongod
+mongo_user: mongod
+mongo_group: mongod
 # Config variables
 mongo_log_path: /data/log/mongodb/mongod.log
 mongo_dbpath: /data/db

@@ -1,7 +1,2 @@
+deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
 
-[mongodb-org-{{ mongo_repo }}]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/{{ mongo_repo }}/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-{{ mongo_repo }}.asc
