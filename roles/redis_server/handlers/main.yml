@@ -1,4 +1,7 @@
 ---
 # handlers file for redis
 - name: restart redis
-  service: "name={{ redis_daemon }} state=restarted"
+  service:
+    name: redis
+    state: restarted
+    enabled: yes

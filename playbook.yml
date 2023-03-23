@@ -1,14 +1,14 @@
 ---
-# - name: Config docker_server
-#   hosts: docker
-#   roles:
-#     - docker_server
-
-- name: Config mongodb_server
-  hosts: mongodb
+- name: Config docker_server
+  hosts: docker
   roles:
-   - mongodb_server
-  # any_errors_fatal: true
+    - docker_server
+
+# - name: Config mongodb_server
+#   hosts: mongodb
+#   roles:
+#    - mongodb_server
+#   any_errors_fatal: true
 
 # - name: Config redis_server
 #   hosts: redis

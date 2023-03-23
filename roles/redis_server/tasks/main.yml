@@ -1,35 +1,31 @@
 ---
 # Variable setup.
-- name: Include OS-specific variables.
-  include_vars: "{{ ansible_os_family }}.yml"
+- name: Install lsb-release
+  apt:
+    name: lsb-release
+    state: present
 
-- name: Define redis_package.
-  set_fact:
-    redis_package: "{{ __redis_package }}"
-  when: redis_package is not defined
+- name: Add an Apt signing key, uses whichever key is at the URL
+  get_url:
+    url: https://packages.redis.io/gpg
+    dest: /etc/apt/trusted.gpg.d/redis-archive-keyring.gpg
+    mode: 0644
+    force: true
 
-- name: Ensure Redis configuration dir exists.
-  file:
-    path: "{{ redis_conf_path | dirname }}"
-    state: directory
-    mode: 0755
-
-- name: Ensure Redis is configured.
+- name: Adding Redis repository
   template:
-    src: redis.conf.j2
-    dest: "{{ redis_conf_path }}"
-    mode: "{{ redis_conf_mode }}"
-  notify: restart redis
+    src: redis_repo.j2
+    dest: /etc/apt/sources.list.d/redis.list
 
-# Setup/install tasks.
-- include_tasks: setup-RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- name: Updating OS
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
 
-- include_tasks: setup-Debian.yml
-  when: ansible_os_family == 'Debian'
-
-#- include_tasks: setup-Archlinux.yml
-#  when: ansible_os_family == 'Archlinux'
-
-- name: Ensure Redis is running and enabled on boot.
-  service: "name={{ redis_daemon }} state=started enabled=yes"
+- name: Install Redis
+  apt:
+    name: redis
+    state: present
+  notify:
+    - restart redis

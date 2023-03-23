@@ -6,19 +6,6 @@
     mode: 0644
     force: true
 
-# - name: Install gnupg and its required libraries
-#   apt:
-#     name: gnupg
-
-# - name: Import MongoDB public GPG Key
-#   apt_key:
-#     keyserver: keyserver.ubuntu.com
-#     id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-
-# - name: Add mongo repository
-#   apt_repository:
-#     repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse"
-
 - name: Adding MongoDB repository
   template:
     src: mongo_repo.j2
